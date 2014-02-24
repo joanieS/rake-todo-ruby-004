@@ -145,8 +145,12 @@ describe 'Rakefile' do
 
     describe "todo_reminder" do
       it 'defines a prerequisite of environment'
+        expect(task.prerequisites).to include("environment")
+      end
       it 'uses an ENV variable of EMAIL'
+        expect(task.arg_names).to include(:email)
+      end
       it 'emails the user a todo reminder'
-    end
-  end
-end
+        expect($stdout).to receive(:puts).with("Sending todo reminder to student@flatironschool.com)")
+      end
+  
