@@ -144,13 +144,25 @@ describe 'Rakefile' do
     end
 
     describe "todo_reminder" do
-      it 'defines a prerequisite of environment'
+      let(:task){Rake::Task['user:todo_reminder']}
+
+      it 'defines a prerequisite of environment' do
         expect(task.prerequisites).to include("environment")
       end
-      it 'uses an ENV variable of EMAIL'
-        expect(task.arg_names).to include(:email)
+
+      it 'uses an ENV variable of EMAIL' do
+      ENV["EMAIL"] = 'student@flatironschool.com'
+      my_ruby_home = ENV["MY_RUBY_HOME"]
+
+        expect($stdout).to receive(:puts).with("ENV includes #{my_ruby_home}")
+        expect($stdout).to receive(:puts).with("Sending todo reminder to student@flatironschool.com")
+
+        task.invoke()
       end
-      it 'emails the user a todo reminder'
-        expect($stdout).to receive(:puts).with("Sending todo reminder to student@flatironschool.com)")
+
+      it 'emails the user a todo reminder' do
+
       end
-  
+    end
+  end
+end
